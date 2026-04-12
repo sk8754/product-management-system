@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Stored {
+  id             Int           @id @default(autoincrement())
+  product_id     String        @unique
+  product_name   String        @unique
+  category       String
+  current_stored Int
+  minimum_stored Int
+  status         stored_status
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
+  orders Order[]
+  inventorylogs InventoryLog[]
+}
+
+enum stored_status {
+  normal
+  caution
+  alert
+}
+
+model Account {
+  id                 String   @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  
+  access_token       String?
+  expires_at         Int?     
+  token_type         String?  
+  scope              String?  
+  id_token           String?  
+  session_state      String?  
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+  Product Stored @relation(fields: [product_id], references: [product_id])
+  product_id String
+  quantity Int
+  status OrderStatus @default(PENDING)
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  ordered_at DateTime @default(now())
+  inventoryLog InventoryLog? @relation(fields: [inventoryLogId], references: [id])
+  inventoryLogId Int? @unique
+}
+
+model InventoryLog {
+  id Int @id @default(autoincrement())
+  product Stored @relation(fields: [product_id], references: [product_id])
+  product_id String 
+  type InventoryType
+  quantity Int
+  reason String?
+  order Order? @relation
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  created_at DateTime @default(now())
+}
+
+enum InventoryType {
+  IN
+  OUT
+}
+
+enum OrderStatus {
+  PENDING
+  DELIVERED
+  CANCELLED
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  passwordHash String?
+  image         String?
+  role UserRole @default(USER)
+  accounts      Account[]
+  sessions      Session[]
+  orders        Order[]
+  inventoryLogs InventoryLog[]
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
