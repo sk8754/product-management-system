@@ -1,37 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+中規模程度の実用的なWebシステムを開発してみようと思いプロダクトの開発を企画しました。
+システムの構想としては、流通業界をテーマにオリジナルのECサイトを中心に据えて、そこから在庫管理、販売管理、商品分析、マーケティングといった
+部門に展開することを予定しています。
+このリポジトリでは「在庫管理・販売管理機能を持ったダッシュボード風の管理系アプリケーション」を開発しています。
 
-## Getting Started
+【技術スタック】
+フロントエンド：　Next.js(App router)
+バックエンド： Node.js(API route)
+DB：　postgreSQL(Supabase)
+認証認可：　NextAuth
+ホスティング：　Vercel
+状態管理ライブラリ：　Zustand
+ORM：　Prisma
+バリデーション： Zod
+ユニットテスト： Jest
+データフェッチ（キャッシュ）： SWR
+UIライブラリ： shadcn/ui
+CSSライブラリ： tailwindCSS
+入力フォーム： React hook form
+テーブルライブラリ： React Table
 
-First, run the development server:
+【アプリの仕様（暫定）】
+・ECサイトとAPI連携をして、リアルタイムで相互のデータを同期させて、整合性のある情報を互いに共有できること。
+・ECサイト側では最新の在庫情報を基にして、フロントで在庫情報を利用したUIを実装できること。
+・ECサイト側から注文リクエストが入った場合に、在庫管理アプリ側でも注文データを共有できること。
+・在庫管理アプリ側では、商品の在庫が減少した場合には警告を表示し発注をオペレーションユーザーに促進させることができる。
+・在庫管理アプリ側では、オペレーションユーザーが実際に発注した商品の入庫を確認した後に在庫数の増加を確定させる。
+・在庫管理アプリ側では、オペレーションユーザーが実際に注文された商品の出庫を確認した後に在庫数の減少を確定させる。
+・販売管理データからどのような商品がどのようなユーザーに売れているかなどの細かい分析を行えるようにし、レコメンドエンジンに分析データを共有することができる。
+・ECサイト側ではレコメンドエンジンを利用して、ユーザー属性に応じてお勧めの商品を表示できるようにする。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-"# product-management-system" 
+【進捗状況】
+・在庫管理画面の実装と発注API、入出庫管理APIの実装が概ね完了。管理権限を持ったユーザーのみ発注が可能。
+・注文管理画面と入出庫管理画面のレイアウト・デザインを企画中
