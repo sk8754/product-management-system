@@ -74,18 +74,18 @@ const TopPage = ({ storedData }: storedDataProps) => {
         <RectangleCard
           label="総在庫数"
           number={totalStoredItemsAmount}
-          image=""
+          image="/inventory.jpeg"
           text="前月比"
         />
         <RectangleCard
           label="商品種類"
           number={currentStoredData.length}
-          image=""
+          image="/analytics.jpeg"
           text="アクティブな商品"
         />
         <RectangleCard
           label="低在庫アラート"
-          image=""
+          image="/caution.jpeg"
           number={
             currentStoredData.filter((data) => data.status === "caution").length
           }
@@ -96,7 +96,7 @@ const TopPage = ({ storedData }: storedDataProps) => {
           number={
             currentStoredData.filter((data) => data.status === "alert").length
           }
-          image=""
+          image="explode.jpeg"
           text="即座に発注必要"
         />
       </div>

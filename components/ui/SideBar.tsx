@@ -77,10 +77,14 @@ const SideBar = () => {
         {/* ログインユーザー */}
         {session ? (
           <div className="py-8 border-t border-t-white">
-            <ul className="pl-4">
-              <li className="flex items-center gap-4">
+            <ul>
+              <li className="flex items-center justify-center gap-4">
                 <div>
-                  <img alt="ユーザー画像" />
+                  <img
+                    alt="ユーザー画像"
+                    src={session.user?.image || "/userIcon.jpeg"}
+                    className="w-10 aspect-square rounded-full"
+                  />
                 </div>
                 <div>
                   <p className="text-white">{session.user?.name}</p>

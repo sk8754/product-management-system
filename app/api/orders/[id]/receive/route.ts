@@ -43,6 +43,7 @@ export async function POST(
         },
         data: {
           status: "DELIVERED",
+          completed_at: new Date(),
         },
       });
 

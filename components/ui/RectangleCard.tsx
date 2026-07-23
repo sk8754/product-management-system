@@ -11,9 +11,9 @@ const RectangleCard = ({ label, number, image, text }: RectangleCardProps) => {
   return (
     <>
       <div className="py-8 px-4 border border-gray-400 rounded-2xl">
-        <div className="flex justify-between mb-4">
+        <div className="flex justify-between items-center mb-4">
           <h2>{label}</h2>
-          <img alt="アイコン" />
+          <img className="w-10 aspect-square" alt="アイコン" src={image} />
         </div>
 
         <p
@@ -21,8 +21,8 @@ const RectangleCard = ({ label, number, image, text }: RectangleCardProps) => {
             label === "低在庫アラート"
               ? "text-yellow-300"
               : label === "緊急対応"
-              ? "text-red-400"
-              : ""
+                ? "text-red-400"
+                : ""
           }`}
         >
           {number}

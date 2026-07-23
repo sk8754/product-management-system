@@ -19,19 +19,29 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) return null;
+        if (!credentials?.email || !credentials.password) {
+          throw new Error("メールアドレスとパスワードを入力してください");
+        }
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
-        if (!user || !user.passwordHash) return null;
+        if (!user || !user.passwordHash) {
+          throw new Error(
+            "メールアドレスまたはパスワードが正しくありません",
+          );
+        }
 
         const isValid = await verifyPassword(
           credentials.password,
           user.passwordHash,
         );
-        if (!isValid) return null;
+        if (!isValid) {
+          throw new Error(
+            "メールアドレスまたはパスワードが正しくありません",
+          );
+        }
 
         return {
           id: user.id,

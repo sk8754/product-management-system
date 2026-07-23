@@ -2,11 +2,12 @@
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const Header = () => {
   const { data: session } = useSession();
   const url = usePathname();
+  const [notificationCount, setNotificationCount] = useState(1);
   return (
     <>
       <header className="mb-32 ">
@@ -84,11 +85,24 @@ const Header = () => {
             {/* アイコン2個 */}
             <div className="flex">
               {/* ベルアイコン */}
-              <div>
-                <a href="">
-                  <img alt="ベル" />
-                </a>
-              </div>
+              {session ? (
+                <div>
+                  <Link href="" className="relative">
+                    <img alt="ベル" src="/bell.jpg" className="w-10 h-10" />
+                    {notificationCount >= 1 && (
+                      <>
+                        <div className="absolute top-0 right-0 w-5 h-5 bg-red-500 rounded-full">
+                          <p className="text-white text-xs text-center">
+                            {notificationCount}
+                          </p>
+                        </div>
+                      </>
+                    )}
+                  </Link>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
 
             {/* ボタン2個 */}

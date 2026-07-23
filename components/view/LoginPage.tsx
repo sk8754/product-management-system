@@ -1,5 +1,4 @@
 "use client";
-import AuthButton from "@/components/ui/AuthButton";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -23,6 +22,30 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage("");
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (result?.error) {
+      setErrorMessage(result.error);
+      return;
+    }
+
+    if (!result?.ok) {
+      setErrorMessage("ログインに失敗しました");
+      return;
+    }
+
+    router.push("/");
+  };
 
   useEffect(() => {
     if (session.status === "authenticated") {
@@ -44,8 +67,8 @@ const LoginPage = () => {
               </Link>
             </CardAction>
           </CardHeader>
-          <CardContent>
-            <form>
+          <form onSubmit={handleLogin}>
+            <CardContent>
               <div className="flex flex-col gap-6">
                 <div className="grid gap-2">
                   <Label htmlFor="email">メールアドレス</Label>
@@ -77,29 +100,23 @@ const LoginPage = () => {
                   />
                 </div>
               </div>
-            </form>
-          </CardContent>
-          <CardFooter className="flex-col gap-2">
-            <Button
-              type="submit"
-              className="w-[70%]"
-              onClick={() =>
-                signIn("credentials", {
-                  email: email,
-                  password: password,
-                  redirect: false,
-                })
-              }
-            >
-              ログイン
-            </Button>
-            <Button
-              className="w-[70%] bg-green-300 hover:bg-green-300/80 text-black"
-              onClick={() => signIn("google")}
-            >
-              Googleでログイン
-            </Button>
-          </CardFooter>
+            </CardContent>
+            <CardFooter className="flex-col gap-2">
+              {errorMessage && (
+                <p className="text-red-500 text-sm">{errorMessage}</p>
+              )}
+              <Button type="submit" className="w-[70%]">
+                ログイン
+              </Button>
+              <Button
+                type="button"
+                className="w-[70%] bg-green-300 hover:bg-green-300/80 text-black"
+                onClick={() => signIn("google")}
+              >
+                Googleでログイン
+              </Button>
+            </CardFooter>
+          </form>
         </Card>
       </div>
     </>
