@@ -48,7 +48,7 @@
 }
 @layer base {
   html {
-    font-size: clamp(12px, 1vw, 16px);
+    font-size: clamp(10px, 1vw, 16px);
     /* スクロールバー分の幅を常に確保し、モーダル表示時のレイアウトシフトを防ぐ */
     scrollbar-gutter: stable;
   }
